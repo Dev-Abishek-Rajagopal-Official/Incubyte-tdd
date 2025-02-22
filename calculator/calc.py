@@ -48,8 +48,16 @@ class StringCalculator:
 
         Returns:
             int: The sum of the parsed numbers.
+
+        Raises:
+            ValueError: An exception for negative values
         """
         num_list = [int(i) for i in re.split(delimiter, numbers) if int(i) < 1001]  
+
+        negatives = [num for num in num_list if num < 0]
+        if negatives:
+            raise ValueError(f"Negatives not allowed: {', '.join(map(str, negatives))}")
+
         return sum(num_list)
     
     def _handle_custom_delimiters(self, numbers: str) -> int:
