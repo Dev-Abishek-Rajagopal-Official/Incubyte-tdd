@@ -23,15 +23,15 @@ class StringCalculator:
 
     def _handle_default_delimiters(self, numbers: str) -> int:
         """
-        Handles default delimiters (comma).
+        Handles default delimiters.
 
         Args:
-            numbers (str): A string containing numbers separated by commas.
+            numbers (str): A string containing numbers separated by delimiters.
 
         Returns:
             int: The sum of the numbers.
         """
-        delimiter = ","
+        delimiter = r",|\n|\|"
         return self._calculate_sum(numbers=numbers, delimiter=delimiter) 
     
     def _calculate_sum(self, numbers: str, delimiter: str) -> int:
