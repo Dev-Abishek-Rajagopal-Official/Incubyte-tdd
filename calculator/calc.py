@@ -19,7 +19,11 @@ class StringCalculator:
         """
         if not numbers:
             return 0 
-        return self._handle_default_delimiters(numbers=numbers)
+        
+        if numbers.startswith("//"):
+            return self._handle_custom_delimiters(numbers)
+        
+        return self._handle_default_delimiters(numbers)
 
     def _handle_default_delimiters(self, numbers: str) -> int:
         """
@@ -31,7 +35,7 @@ class StringCalculator:
         Returns:
             int: The sum of the numbers.
         """
-        delimiter = r",|\n|\|"
+        delimiter = r",|\n|\|"  
         return self._calculate_sum(numbers=numbers, delimiter=delimiter) 
     
     def _calculate_sum(self, numbers: str, delimiter: str) -> int:
@@ -45,9 +49,38 @@ class StringCalculator:
         Returns:
             int: The sum of the parsed numbers.
         """
-        num_list = [int(i) for i in re.split(delimiter, numbers)]
-        return sum(num for num in num_list)
-
+        num_list = [int(i) for i in re.split(delimiter, numbers) if i]  
+        return sum(num_list)
     
+    def _handle_custom_delimiters(self, numbers: str) -> int:
+        """
+        Handles input with custom delimiters specified at the beginning.
+
+        Args:
+            numbers (str): Input string with custom delimiter notation.
+
+        Returns:
+            int: The sum of the numbers.
+        """
+        match = re.match(r"//(\[.*?\]|\S+)\n(.*)", numbers)
+        if match:
+            delimiter_part, numbers = match.groups()
+            delimiters = re.findall(r"\[(.*?)\]", delimiter_part)  
+
+            if not delimiters:  
+                delimiters = [delimiter_part]
+
+            delimiter = "|".join(map(re.escape, delimiters))  
+
+            return self._calculate_sum(numbers, delimiter)
+
+        return self._handle_default_delimiters(numbers)
+
+
+# Test cases
 # calc = StringCalculator()
-# print(calc.add(input()))
+# print(calc.add("//[***]\n1***2")) 
+# print(calc.add("//[*?**]\n1*?**2")) 
+# print(calc.add("//;\n1;2"))
+# print(calc.add("//[**][%%]\n1**2%%3"))
+
