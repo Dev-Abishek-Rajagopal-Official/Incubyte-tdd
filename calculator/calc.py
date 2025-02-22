@@ -49,7 +49,7 @@ class StringCalculator:
         Returns:
             int: The sum of the parsed numbers.
         """
-        num_list = [int(i) for i in re.split(delimiter, numbers) if i]  
+        num_list = [int(i) for i in re.split(delimiter, numbers) if int(i) < 1001]  
         return sum(num_list)
     
     def _handle_custom_delimiters(self, numbers: str) -> int:
