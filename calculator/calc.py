@@ -85,10 +85,3 @@ class StringCalculator:
         return self._handle_default_delimiters(numbers)
 
 
-# Test cases
-# calc = StringCalculator()
-# print(calc.add("//[***]\n1***2")) 
-# print(calc.add("//[*?**]\n1*?**2")) 
-# print(calc.add("//;\n1;2"))
-# print(calc.add("//[**][%%]\n1**2%%3"))
-
